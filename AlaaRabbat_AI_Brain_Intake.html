@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutritionist AI Brain — Alaa Rabbat Coaching</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:     #0D1B2A;
+  --navy2:    #132336;
+  --blue:     #1A6FD4;
+  --blue2:    #2A85E8;
+  --blue-lt:  #E8F1FC;
+  --blue-glow:rgba(26,111,212,0.18);
+  --white:    #FFFFFF;
+  --off:      #F4F8FE;
+  --mid:      #7A94B0;
+  --border:   rgba(26,111,212,0.2);
+  --green:    #1A7A4A;
+  --green-lt: #E8F5EE;
+  --danger:   #D4380D;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── animated background grid ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(26,111,212,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,111,212,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── glowing orb top-right ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: -120px; right: -120px;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(26,111,212,0.22) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ── HEADER ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 0 0;
+  margin-bottom: 48px;
+}
+.logo {
+  display: flex; align-items: center; gap: 14px;
+}
+.logo-mark {
+  width: 46px; height: 46px;
+  background: var(--blue);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 20px;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  box-shadow: 0 0 20px rgba(26,111,212,0.4);
+}
+.logo-text .name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 18px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1;
+}
+.logo-text .tag {
+  font-size: 10px;
+  color: var(--blue2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.header-badge {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  background: rgba(26,111,212,0.08);
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  margin-bottom: 52px;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-eyebrow {
+  font-size: 10px; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--blue2);
+  margin-bottom: 14px; font-weight: 500;
+}
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(42px, 8vw, 72px);
+  font-weight: 800;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.hero-title span {
+  color: var(--blue);
+  display: block;
+}
+.hero-sub {
+  font-size: 14px; color: var(--mid);
+  max-width: 480px; margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  margin-bottom: 36px;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+.progress-labels {
+  display: flex; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.progress-step {
+  font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; font-weight: 500;
+  color: var(--mid);
+  transition: color 0.3s;
+  display: flex; align-items: center; gap: 6px;
+}
+.progress-step.active { color: var(--blue2); }
+.progress-step.done   { color: var(--green); }
+.step-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.progress-step.active .step-dot { border-color: var(--blue); background: var(--blue); color: white; }
+.progress-step.done   .step-dot { border-color: var(--green); background: var(--green); color: white; }
+.progress-bar-bg {
+  height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; background: var(--blue);
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 10px rgba(26,111,212,0.6);
+}
+
+/* ── FORM CARDS ── */
+.section {
+  display: none;
+  animation: fadeUp 0.4s ease both;
+}
+.section.active { display: block; }
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
+}
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--white); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 10px;
+}
+.card-title::before {
+  content: '';
+  display: block; width: 4px; height: 22px;
+  background: var(--blue); border-radius: 2px;
+  flex-shrink: 0;
+}
+.card-sub {
+  font-size: 12px; color: var(--mid);
+  margin-bottom: 24px; padding-left: 14px;
+}
+
+/* ── FORM ELEMENTS ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
+.form-grid.full   { grid-template-columns: 1fr; }
+@media (max-width: 560px) {
+  .form-grid, .form-grid.thirds { grid-template-columns: 1fr; }
+}
+
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-group label {
+  font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--mid);
+  font-weight: 500;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(26,111,212,0.2);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 11px 14px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  outline: none;
+  -webkit-appearance: none;
+}
+.form-group select option { background: var(--navy2); color: var(--white); }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--blue);
+  background: rgba(26,111,212,0.08);
+  box-shadow: 0 0 0 3px rgba(26,111,212,0.12);
+}
+.form-group input::placeholder { color: rgba(255,255,255,0.2); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+/* ── CHIP SELECTS ── */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 16px;
+  border: 1.5px solid rgba(26,111,212,0.25);
+  border-radius: 30px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 500;
+  color: var(--mid);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.chip:hover { border-color: var(--blue2); color: var(--white); }
+.chip.on {
+  border-color: var(--blue);
+  background: rgba(26,111,212,0.18);
+  color: var(--white);
+  box-shadow: 0 0 12px rgba(26,111,212,0.2);
+}
+.chip.green.on {
+  border-color: var(--green);
+  background: rgba(26,122,74,0.18);
+  color: #6EE0A0;
+  box-shadow: 0 0 12px rgba(26,122,74,0.2);
+}
+.chip.danger.on {
+  border-color: var(--danger);
+  background: rgba(212,56,13,0.14);
+  color: #FF8A70;
+}
+
+/* ── RANGE SLIDER ── */
+.slider-wrap { display: flex; flex-direction: column; gap: 8px; }
+.slider-top   { display: flex; justify-content: space-between; font-size: 11px; color: var(--mid); }
+.slider-val   { color: var(--blue2); font-weight: 600; font-size: 13px; }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px; outline: none; border: none; padding: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--blue);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(26,111,212,0.5);
+  transition: transform 0.15s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* ── NAV BUTTONS ── */
+.nav-row {
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 12px;
+  margin-top: 28px;
+}
+.btn-back {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--mid);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-back:hover { border-color: var(--blue2); color: var(--white); }
+.btn-next {
+  flex: 1; max-width: 260px;
+  padding: 14px 32px;
+  background: var(--blue);
+  border: none; border-radius: 10px;
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(26,111,212,0.35);
+}
+.btn-next:hover {
+  background: var(--blue2);
+  box-shadow: 0 6px 28px rgba(26,111,212,0.5);
+  transform: translateY(-1px);
+}
+.btn-generate {
+  flex: 1;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, var(--blue) 0%, #0E4FA8 100%);
+  border: none; border-radius: 12px;
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 6px 32px rgba(26,111,212,0.45);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-generate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(26,111,212,0.6);
+}
+
+/* ── SECTION DIVIDER ── */
+.field-section {
+  font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--blue2);
+  font-weight: 500; margin: 20px 0 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.field-section::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--border);
+}
+
+/* ── RESULT PANEL ── */
+#result-section {
+  display: none;
+  animation: fadeUp 0.5s ease both;
+}
+.result-card {
+  background: rgba(26,111,212,0.07);
+  border: 1px solid rgba(26,111,212,0.3);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 20px;
+}
+.result-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--blue2);
+  margin-bottom: 16px;
+}
+.prompt-box {
+  background: var(--navy2);
+  border: 1px solid rgba(26,111,212,0.25);
+  border-radius: 12px;
+  padding: 20px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; line-height: 1.8;
+  color: rgba(255,255,255,0.88);
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+}
+.copy-btn {
+  position: absolute; top: 12px; right: 12px;
+  padding: 6px 14px;
+  background: var(--blue);
+  border: none; border-radius: 6px;
+  color: white; font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; letter-spacing: 0.5px;
+  cursor: pointer; transition: all 0.15s;
+}
+.copy-btn:hover { background: var(--blue2); }
+.copy-btn.copied { background: var(--green); }
+
+.outputs-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-top: 20px;
+}
+@media (max-width: 560px) { .outputs-row { grid-template-columns: 1fr; } }
+.output-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.output-chip .oc-icon { font-size: 22px; margin-bottom: 6px; }
+.output-chip .oc-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--white); letter-spacing: 0.5px;
+}
+.output-chip .oc-sub { font-size: 10px; color: var(--mid); margin-top: 2px; }
+
+.restart-btn {
+  width: 100%; margin-top: 20px;
+  padding: 13px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--mid);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; cursor: pointer;
+  transition: all 0.15s;
+}
+.restart-btn:hover { border-color: var(--blue2); color: var(--white); }
+
+/* ── SMART EATING TIPS STRIP ── */
+.tips-strip {
+  background: rgba(26,122,74,0.08);
+  border: 1px solid rgba(26,122,74,0.2);
+  border-radius: 14px; padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.tips-icon {
+  width: 32px; height: 32px; flex-shrink: 0;
+  background: rgba(26,122,74,0.2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.tips-content .tips-title {
+  font-size: 11px; font-weight: 600;
+  color: #6EE0A0; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.tips-content .tips-text {
+  font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.6;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; margin-top: 48px;
+  font-size: 11px; color: rgba(255,255,255,0.2);
+  letter-spacing: 0.5px;
+}
+footer a { color: var(--blue2); text-decoration: none; }
+
+/* required asterisk */
+.req { color: var(--blue2); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark">AR</div>
+      <div class="logo-text">
+        <div class="name">Alaa Rabbat</div>
+        <div class="tag">Coaching · AI Nutrition Brain</div>
+      </div>
+    </div>
+    <div class="header-badge">Client Intake</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Personalized Nutrition System</div>
+    <h1 class="hero-title">Build Your<span>Meal Plan</span></h1>
+    <p class="hero-sub">Complete the form below — the AI Brain will generate your fully customized plan, macros, and weekly menu instantly.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-labels">
+      <div class="progress-step active" id="ps1"><div class="step-dot">1</div>Personal</div>
+      <div class="progress-step" id="ps2"><div class="step-dot">2</div>Goals</div>
+      <div class="progress-step" id="ps3"><div class="step-dot">3</div>Diet & Lifestyle</div>
+      <div class="progress-step" id="ps4"><div class="step-dot">4</div>Preferences</div>
+      <div class="progress-step" id="ps5"><div class="step-dot">5</div>Generate</div>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width:20%"></div></div>
+  </div>
+
+  <!-- ══ SECTION 1: PERSONAL DATA ══ -->
+  <div class="section active" id="sec1">
+    <div class="card">
+      <div class="card-title">Personal Data</div>
+      <div class="card-sub">Basic measurements to calculate your exact calorie and macro targets</div>
+
+      <div class="form-grid">
+        <div class="form-group" style="grid-column:1/-1">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" id="clientName" placeholder="e.g. Sarah Al-Mansouri">
+        </div>
+        <div class="form-group">
+          <label>Age <span class="req">*</span></label>
+          <input type="number" id="age" placeholder="Years" min="15" max="90">
+        </div>
+        <div class="form-group">
+          <label>Sex <span class="req">*</span></label>
+          <select id="sex">
+            <option value="">Select</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Height (cm) <span class="req">*</span></label>
+          <input type="number" id="height" placeholder="e.g. 165">
+        </div>
+        <div class="form-group">
+          <label>Current Weight (kg) <span class="req">*</span></label>
+          <input type="number" id="weight" placeholder="e.g. 72">
+        </div>
+        <div class="form-group">
+          <label>Goal Weight (kg)</label>
+          <input type="number" id="goalWeight" placeholder="e.g. 64">
+        </div>
+        <div class="form-group">
+          <label>Occupation</label>
+          <select id="occupation">
+            <option value="">Select</option>
+            <option>Desk job / Office work</option>
+            <option>On feet / Retail / Hospitality</option>
+            <option>Physical / Manual labour</option>
+            <option>Student</option>
+            <option>Stay at home parent</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-section">Activity Level</div>
+      <div class="chips" id="activityChips">
+        <div class="chip" onclick="solo(this,'activityChips')">Sedentary — desk job, little to no exercise</div>
+        <div class="chip" onclick="solo(this,'activityChips')">Lightly active — 1–3 sessions per week</div>
+        <div class="chip on" onclick="solo(this,'activityChips')">Moderately active — 3–5 sessions per week</div>
+        <div class="chip" onclick="solo(this,'activityChips')">Very active — 6–7 sessions per week</div>
+        <div class="chip" onclick="solo(this,'activityChips')">Athlete / intense daily training</div>
+      </div>
+
+      <div class="field-section">Training Days per Week</div>
+      <div class="slider-wrap">
+        <div class="slider-top">
+          <span>0 days</span>
+          <span class="slider-val" id="trainVal">3 days / week</span>
+          <span>7 days</span>
+        </div>
+        <input type="range" min="0" max="7" value="3" id="trainingDays"
+               oninput="document.getElementById('trainVal').textContent=this.value+' days / week'">
+      </div>
+    </div>
+    <div class="nav-row">
+      <div></div>
+      <button class="btn-next" onclick="go(2)">Next: Goals →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: GOALS ══ -->
+  <div class="section" id="sec2">
+    <div class="card">
+      <div class="card-title">Goals & Health</div>
+      <div class="card-sub">Select everything that applies — the plan will be optimized accordingly</div>
+
+      <div class="field-section">Primary Goal <span class="req">*</span></div>
+      <div class="chips" id="goalChips">
+        <div class="chip" onclick="solo(this,'goalChips')">Fat Loss</div>
+        <div class="chip on" onclick="solo(this,'goalChips')">Body Recomposition</div>
+        <div class="chip" onclick="solo(this,'goalChips')">Muscle Gain</div>
+        <div class="chip" onclick="solo(this,'goalChips')">Athletic Performance</div>
+        <div class="chip" onclick="solo(this,'goalChips')">Blood Sugar Balance</div>
+        <div class="chip" onclick="solo(this,'goalChips')">General Wellness & Longevity</div>
+        <div class="chip" onclick="solo(this,'goalChips')">Hormonal Balance</div>
+        <div class="chip" onclick="solo(this,'goalChips')">Gut Health</div>
+      </div>
+
+      <div class="field-section">Health Conditions (select all that apply)</div>
+      <div class="chips" id="healthChips">
+        <div class="chip" onclick="multi(this)">None</div>
+        <div class="chip" onclick="multi(this)">Type 2 Diabetes</div>
+        <div class="chip" onclick="multi(this)">Pre-diabetes / Insulin resistance</div>
+        <div class="chip" onclick="multi(this)">PCOS</div>
+        <div class="chip" onclick="multi(this)">Hypothyroid / Hashimoto's</div>
+        <div class="chip" onclick="multi(this)">IBS / Digestive issues</div>
+        <div class="chip" onclick="multi(this)">High blood pressure</div>
+        <div class="chip" onclick="multi(this)">High cholesterol</div>
+        <div class="chip" onclick="multi(this)">Anaemia / Low iron</div>
+        <div class="chip" onclick="multi(this)">Endometriosis</div>
+      </div>
+
+      <div class="field-section">Medications / Supplements (optional)</div>
+      <div class="form-grid full">
+        <div class="form-group">
+          <label>Current medications or supplements that affect nutrition</label>
+          <textarea id="medications" placeholder="e.g. Metformin, Levothyroxine, Iron supplements, Vitamin D..."></textarea>
+        </div>
+      </div>
+
+      <div class="field-section">Recent Bloodwork (optional)</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Iron / Ferritin</label>
+          <input type="text" id="iron" placeholder="e.g. Low / Normal / 12 ng/mL">
+        </div>
+        <div class="form-group">
+          <label>Vitamin D</label>
+          <input type="text" id="vitD" placeholder="e.g. Deficient / 28 nmol/L">
+        </div>
+        <div class="form-group">
+          <label>HbA1c</label>
+          <input type="text" id="hba1c" placeholder="e.g. 5.4% / Normal">
+        </div>
+        <div class="form-group">
+          <label>Vitamin B12</label>
+          <input type="text" id="b12" placeholder="e.g. Normal / 180 pg/mL">
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(1)">← Back</button>
+      <button class="btn-next" onclick="go(3)">Next: Diet & Lifestyle →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: DIET & LIFESTYLE ══ -->
+  <div class="section" id="sec3">
+    <div class="card">
+      <div class="card-title">Diet Style & Lifestyle</div>
+      <div class="card-sub">Helps the AI match meals to your eating style and daily routine</div>
+
+      <div class="field-section">Diet Style <span class="req">*</span></div>
+      <div class="chips" id="dietChips">
+        <div class="chip on" onclick="solo(this,'dietChips')">Omnivore — all foods</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Mediterranean</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Pescatarian — no meat, fish ok</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Vegetarian</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Vegan / Plant-Based</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Keto / Low-Carb</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Paleo</div>
+        <div class="chip" onclick="solo(this,'dietChips')">Gluten-Free</div>
+      </div>
+
+      <div class="field-section">Meals per Day</div>
+      <div class="chips" id="mealsChips">
+        <div class="chip" onclick="solo(this,'mealsChips')">2 meals</div>
+        <div class="chip on" onclick="solo(this,'mealsChips')">3 meals</div>
+        <div class="chip" onclick="solo(this,'mealsChips')">3 meals + 1 snack</div>
+        <div class="chip" onclick="solo(this,'mealsChips')">3 meals + 2 snacks</div>
+        <div class="chip" onclick="solo(this,'mealsChips')">5–6 small meals</div>
+      </div>
+
+      <div class="field-section">Cooking Time Available</div>
+      <div class="chips" id="cookChips">
+        <div class="chip" onclick="solo(this,'cookChips')">Very quick — 10–15 min max</div>
+        <div class="chip on" onclick="solo(this,'cookChips')">Moderate — up to 30 min</div>
+        <div class="chip" onclick="solo(this,'cookChips')">Happy to cook — up to 45 min</div>
+        <div class="chip" onclick="solo(this,'cookChips')">Enjoy cooking — no time limit</div>
+      </div>
+
+      <div class="field-section">Cooking Skill Level</div>
+      <div class="chips" id="skillChips">
+        <div class="chip" onclick="solo(this,'skillChips')">Beginner — keep it very simple</div>
+        <div class="chip on" onclick="solo(this,'skillChips')">Intermediate — comfortable with basic techniques</div>
+        <div class="chip" onclick="solo(this,'skillChips')">Confident cook — happy with complex recipes</div>
+      </div>
+
+      <div class="field-section">Lifestyle Factors</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Sleep Quality</label>
+          <select id="sleep">
+            <option value="">Select</option>
+            <option>Good — 7–9 hours consistently</option>
+            <option>Fair — some disruptions</option>
+            <option>Poor — under 6 hours or disturbed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Stress Level</label>
+          <select id="stress">
+            <option value="">Select</option>
+            <option>Low</option>
+            <option>Moderate</option>
+            <option>High — often overwhelmed</option>
+            <option>Very high — chronic stress</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Budget per Week</label>
+          <select id="budget">
+            <option value="">Select</option>
+            <option>Budget-conscious — keep costs low</option>
+            <option>Moderate — standard supermarket shop</option>
+            <option>Flexible — quality over cost</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Location / Country</label>
+          <input type="text" id="location" placeholder="e.g. UAE, UK, France">
+        </div>
+      </div>
+
+      <div class="field-section">Travel or Eating Out Frequency</div>
+      <div class="chips" id="travelChips">
+        <div class="chip on" onclick="solo(this,'travelChips')">Rarely — mostly home cooking</div>
+        <div class="chip" onclick="solo(this,'travelChips')">Sometimes — a few times per week</div>
+        <div class="chip" onclick="solo(this,'travelChips')">Often — at least once a day</div>
+        <div class="chip" onclick="solo(this,'travelChips')">Travelling now — need restaurant guide</div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(2)">← Back</button>
+      <button class="btn-next" onclick="go(4)">Next: Food Preferences →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: PREFERENCES ══ -->
+  <div class="section" id="sec4">
+    <div class="card">
+      <div class="card-title">Food Preferences & Allergies</div>
+      <div class="card-sub">The more specific you are, the more personalized your plan will be</div>
+
+      <div class="field-section">Allergies — Anaphylactic / Serious <span class="req">*</span></div>
+      <div class="chips" id="allergyChips">
+        <div class="chip on" onclick="multi(this)">None</div>
+        <div class="chip danger" onclick="multi(this)">Nuts / Tree nuts</div>
+        <div class="chip danger" onclick="multi(this)">Peanuts</div>
+        <div class="chip danger" onclick="multi(this)">Shellfish</div>
+        <div class="chip danger" onclick="multi(this)">Fish</div>
+        <div class="chip danger" onclick="multi(this)">Eggs</div>
+        <div class="chip danger" onclick="multi(this)">Dairy / Milk</div>
+        <div class="chip danger" onclick="multi(this)">Gluten / Wheat</div>
+        <div class="chip danger" onclick="multi(this)">Soy</div>
+        <div class="chip danger" onclick="multi(this)">Sesame</div>
+      </div>
+
+      <div class="field-section">Intolerances / Sensitivities</div>
+      <div class="chips" id="intoleranceChips">
+        <div class="chip on" onclick="multi(this)">None</div>
+        <div class="chip" onclick="multi(this)">Lactose</div>
+        <div class="chip" onclick="multi(this)">Fructose</div>
+        <div class="chip" onclick="multi(this)">Gluten (sensitivity, not coeliac)</div>
+        <div class="chip" onclick="multi(this)">High-FODMAP foods</div>
+        <div class="chip" onclick="multi(this)">Histamine</div>
+        <div class="chip" onclick="multi(this)">Nightshades</div>
+        <div class="chip" onclick="multi(this)">Caffeine</div>
+      </div>
+
+      <div class="field-section">Cuisine Preferences</div>
+      <div class="chips" id="cuisineChips">
+        <div class="chip green on" onclick="multi(this)">Mediterranean</div>
+        <div class="chip green on" onclick="multi(this)">Middle Eastern / Lebanese</div>
+        <div class="chip green" onclick="multi(this)">Italian</div>
+        <div class="chip green" onclick="multi(this)">Spanish / French</div>
+        <div class="chip green" onclick="multi(this)">Asian / Japanese</div>
+        <div class="chip green" onclick="multi(this)">Indian</div>
+        <div class="chip green" onclick="multi(this)">Mexican / Latin</div>
+        <div class="chip green" onclick="multi(this)">American / British</div>
+        <div class="chip green" onclick="multi(this)">No preference — maximum variety</div>
+      </div>
+
+      <div class="field-section">Foods You Dislike or Won't Eat</div>
+      <div class="form-group">
+        <label>List any foods to exclude from the plan</label>
+        <textarea id="dislikes" placeholder="e.g. Brussels sprouts, liver, blue cheese, lamb..."></textarea>
+      </div>
+
+      <div class="field-section">Plan Duration & Outputs</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Plan Length</label>
+          <select id="planLength">
+            <option value="7-day">7-day plan</option>
+            <option value="14-day">14-day plan</option>
+            <option value="28-day">28-day / monthly plan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Options per Meal Slot</label>
+          <select id="mealOptions">
+            <option value="3">3 options per meal (recommended)</option>
+            <option value="2">2 options per meal</option>
+            <option value="5">5 options per meal (maximum variety)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-section">Output Formats Required</div>
+      <div class="chips" id="outputChips">
+        <div class="chip green on" onclick="multi(this)">Branded PDF report</div>
+        <div class="chip green on" onclick="multi(this)">Excel file for app</div>
+        <div class="chip green" onclick="multi(this)">Interactive HTML client link</div>
+        <div class="chip green on" onclick="multi(this)">Weekly shopping list</div>
+        <div class="chip green" onclick="multi(this)">Travel & eating out card</div>
+      </div>
+
+      <div class="field-section">Additional Notes</div>
+      <div class="form-group">
+        <label>Anything else the AI should know about this client</label>
+        <textarea id="notes" placeholder="e.g. Client is breastfeeding, eats lunch at work with no kitchen, travels to London every Friday..."></textarea>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(3)">← Back</button>
+      <button class="btn-next" onclick="go(5)">Review & Generate →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: GENERATE ══ -->
+  <div class="section" id="sec5">
+    <div class="tips-strip">
+      <div class="tips-icon">✦</div>
+      <div class="tips-content">
+        <div class="tips-title">Smart Eating Protocol — Applied to Every Meal</div>
+        <div class="tips-text">All plans include: savory protein-first breakfasts · vegetables before the main course · carbs always paired with fat and fiber · 10-min walk after meals recommended · vinegar in water before largest meal</div>
+      </div>
+    </div>
+
+    <div class="card" id="summaryCard">
+      <div class="card-title">Plan Summary</div>
+      <div class="card-sub">Review before generating</div>
+      <div id="summaryContent" style="font-size:13px;line-height:1.9;color:rgba(255,255,255,0.8)"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(4)">← Back</button>
+      <button class="btn-generate" onclick="generate()">
+        Generate Meal Plan
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div id="result-section">
+    <div class="result-card">
+      <div class="result-title">Your AI Brain Prompt — Copy & paste into Claude</div>
+      <div class="prompt-box" id="promptBox">
+        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy</button>
+        <span id="promptText"></span>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-title">Requested Output Formats</div>
+      <div class="outputs-row" id="outputsRow"></div>
+    </div>
+
+    <button class="restart-btn" onclick="restart()">↺ Start New Client Plan</button>
+  </div>
+
+  <footer>
+    <a href="https://www.alaarabbat.com">www.alaarabbat.com</a> · Nutritionist AI Brain · All data stays in your browser
+  </footer>
+</div>
+
+<script>
+// ── chip helpers ─────────────────────────────────────────────────────────────
+function solo(el, groupId) {
+  document.getElementById(groupId).querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+}
+function multi(el) {
+  el.classList.toggle('on');
+}
+function getChips(groupId) {
+  return [...document.getElementById(groupId).querySelectorAll('.chip.on')]
+    .map(c => c.textContent.trim()).join(', ') || 'Not specified';
+}
+function getOne(groupId) {
+  const el = document.getElementById(groupId).querySelector('.chip.on');
+  return el ? el.textContent.trim() : 'Not specified';
+}
+
+// ── navigation ───────────────────────────────────────────────────────────────
+let currentSection = 1;
+const totalSteps = 5;
+
+function go(n) {
+  if (n > currentSection && !validate(currentSection)) return;
+  document.getElementById('sec'+currentSection).classList.remove('active');
+  document.getElementById('ps'+currentSection).classList.remove('active');
+  document.getElementById('ps'+currentSection).classList.add('done');
+
+  currentSection = n;
+  document.getElementById('sec'+n).classList.add('active');
+  document.getElementById('ps'+n).classList.remove('done');
+  document.getElementById('ps'+n).classList.add('active');
+  document.getElementById('progressBar').style.width = (n / totalSteps * 100) + '%';
+
+  if (n === 5) buildSummary();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── validation ───────────────────────────────────────────────────────────────
+function validate(sec) {
+  if (sec === 1) {
+    const required = ['clientName','age','sex','height','weight'];
+    for (const id of required) {
+      if (!document.getElementById(id).value.trim()) {
+        document.getElementById(id).style.borderColor = '#D4380D';
+        document.getElementById(id).focus();
+        return false;
+      }
+      document.getElementById(id).style.borderColor = '';
+    }
+  }
+  return true;
+}
+
+// ── summary ──────────────────────────────────────────────────────────────────
+function buildSummary() {
+  const name      = document.getElementById('clientName').value || '—';
+  const age       = document.getElementById('age').value || '—';
+  const sex       = document.getElementById('sex').value || '—';
+  const height    = document.getElementById('height').value || '—';
+  const weight    = document.getElementById('weight').value || '—';
+  const goalW     = document.getElementById('goalWeight').value || 'Not specified';
+  const activity  = getOne('activityChips');
+  const trainDays = document.getElementById('trainingDays').value;
+  const goal      = getOne('goalChips');
+  const health    = getChips('healthChips');
+  const diet      = getOne('dietChips');
+  const meals     = getOne('mealsChips');
+  const cook      = getOne('cookChips');
+  const skill     = getOne('skillChips');
+  const location  = document.getElementById('location').value || 'Not specified';
+  const budget    = document.getElementById('budget').value || 'Not specified';
+  const travel    = getOne('travelChips');
+  const allergies = getChips('allergyChips');
+  const intol     = getChips('intoleranceChips');
+  const cuisines  = getChips('cuisineChips');
+  const dislikes  = document.getElementById('dislikes').value || 'None';
+  const outputs   = getChips('outputChips');
+  const planLen   = document.getElementById('planLength').value || '7-day';
+  const mealOpts  = document.getElementById('mealOptions').value || '3';
+
+  const rows = [
+    ['Client', name], ['Age', age], ['Sex', sex],
+    ['Height', height+'cm'], ['Weight', weight+'kg'], ['Goal weight', goalW+'kg'],
+    ['Activity', activity], ['Training', trainDays+' days/week'],
+    ['Goal', goal], ['Health conditions', health],
+    ['Diet style', diet], ['Meal structure', meals],
+    ['Cooking time', cook], ['Skill level', skill],
+    ['Location', location], ['Budget', budget], ['Travel', travel],
+    ['Allergies', allergies], ['Intolerances', intol],
+    ['Cuisine preferences', cuisines], ['Dislikes', dislikes],
+    ['Plan length', planLen], ['Options per slot', mealOpts],
+    ['Output formats', outputs],
+  ];
+
+  document.getElementById('summaryContent').innerHTML = rows
+    .map(([k,v]) => `<span style="color:var(--blue2);font-weight:500">${k}:</span> ${v}`)
+    .join('<br>');
+}
+
+// ── generate prompt ───────────────────────────────────────────────────────────
+function generate() {
+  const name      = document.getElementById('clientName').value || '—';
+  const age       = document.getElementById('age').value;
+  const sex       = document.getElementById('sex').value;
+  const height    = document.getElementById('height').value;
+  const weight    = document.getElementById('weight').value;
+  const goalW     = document.getElementById('goalWeight').value;
+  const occ       = document.getElementById('occupation').value;
+  const activity  = getOne('activityChips');
+  const trainDays = document.getElementById('trainingDays').value;
+  const goal      = getOne('goalChips');
+  const health    = getChips('healthChips');
+  const meds      = document.getElementById('medications').value || 'None';
+  const iron      = document.getElementById('iron').value;
+  const vitD      = document.getElementById('vitD').value;
+  const hba1c     = document.getElementById('hba1c').value;
+  const b12       = document.getElementById('b12').value;
+  const diet      = getOne('dietChips');
+  const meals     = getOne('mealsChips');
+  const cook      = getOne('cookChips');
+  const skill     = getOne('skillChips');
+  const sleep     = document.getElementById('sleep').value || 'Not specified';
+  const stress    = document.getElementById('stress').value || 'Not specified';
+  const budget    = document.getElementById('budget').value || 'Not specified';
+  const location  = document.getElementById('location').value || 'Not specified';
+  const travel    = getOne('travelChips');
+  const allergies = getChips('allergyChips');
+  const intol     = getChips('intoleranceChips');
+  const cuisines  = getChips('cuisineChips');
+  const dislikes  = document.getElementById('dislikes').value || 'None';
+  const notes     = document.getElementById('notes').value || 'None';
+  const planLen   = document.getElementById('planLength').value;
+  const mealOpts  = document.getElementById('mealOptions').value;
+  const outputs   = getChips('outputChips');
+
+  const bloodwork = [iron&&`Iron/Ferritin: ${iron}`, vitD&&`Vitamin D: ${vitD}`,
+    hba1c&&`HbA1c: ${hba1c}`, b12&&`B12: ${b12}`].filter(Boolean).join(', ') || 'Not provided';
+
+  const prompt = `NEW CLIENT — ${name.toUpperCase()}
+
+PERSONAL DATA
+─────────────
+Name: ${name}
+Age: ${age} | Sex: ${sex} | Height: ${height}cm | Current weight: ${weight}kg${goalW ? ` | Goal weight: ${goalW}kg` : ''}
+Occupation: ${occ || 'Not specified'}
+Activity level: ${activity}
+Training: ${trainDays} days per week
+
+GOALS & HEALTH
+──────────────
+Primary goal: ${goal}
+Health conditions: ${health}
+Medications / supplements: ${meds}
+Recent bloodwork: ${bloodwork}
+
+DIET & LIFESTYLE
+────────────────
+Diet style: ${diet}
+Meal structure: ${meals}
+Cooking time available: ${cook}
+Cooking skill: ${skill}
+Sleep quality: ${sleep}
+Stress level: ${stress}
+Budget: ${budget}
+Location: ${location}
+Travel / eating out: ${travel}
+
+FOOD PREFERENCES
+────────────────
+Allergies (serious): ${allergies}
+Intolerances / sensitivities: ${intol}
+Cuisine preferences: ${cuisines}
+Foods to exclude: ${dislikes}
+
+PLAN REQUIREMENTS
+─────────────────
+Plan length: ${planLen}
+Options per meal slot: ${mealOpts}
+Additional notes: ${notes}
+
+PLEASE GENERATE
+───────────────
+1. Calculate TDEE and full macro targets
+2. Create the ${planLen} meal plan with ${mealOpts} options per meal slot
+3. Apply smart eating protocol throughout (food sequencing, savory breakfasts, carb pairing, post-meal activity)
+4. Include a weekly shopping list
+5. Add a photo search term for every meal
+6. Output formats required: ${outputs}`;
+
+  document.getElementById('promptText').textContent = prompt;
+  document.getElementById('sec5').classList.remove('active');
+  document.getElementById('result-section').style.display = 'block';
+
+  // Output chips display
+  const outputList = outputs.split(', ').filter(Boolean);
+  const icons = {'Branded PDF report':'📄','Excel file for app':'📊',
+    'Interactive HTML client link':'🔗','Weekly shopping list':'🛒',
+    'Travel & eating out card':'✈️'};
+  document.getElementById('outputsRow').innerHTML = outputList.map(o =>
+    `<div class="output-chip">
+      <div class="oc-icon">${icons[o]||'📋'}</div>
+      <div class="oc-label">${o}</div>
+    </div>`).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── copy ─────────────────────────────────────────────────────────────────────
+function copyPrompt() {
+  const text = document.getElementById('promptText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+// ── restart ───────────────────────────────────────────────────────────────────
+function restart() {
+  document.getElementById('result-section').style.display = 'none';
+  currentSection = 1;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.progress-step').forEach(s => {
+    s.classList.remove('active','done');
+  });
+  document.getElementById('sec1').classList.add('active');
+  document.getElementById('ps1').classList.add('active');
+  document.getElementById('progressBar').style.width = '20%';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
